@@ -7,8 +7,10 @@ import { StartIcon } from "@/app/components/commons/Icons";
 import { useParams, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 import { ReviewDataProps } from "@/app/components/trip/Destinations/DestinationReviewCard";
 import DestinationReviewCard from "@/app/components/trip/Destinations/DestinationReviewCard";
+import GYEONGBOKGUNG from "@/public/images/gyeongbokgung.jpg";
 
 interface DetailData {
   title: string;
@@ -64,72 +66,74 @@ const DetailPage: React.FC = () => {
   };
 
   return (
-    <DetailPageContainer>
-      <CommonHeader
-        backLink={"/trip/destination/list"}
-        headerTitle={"상세보기"}
-      />
-      <DetailContentsContainer>
-        <DetailImage></DetailImage>
-        <DetailInfo>
-          <DetailWrapper>
-            <div className={"title-wrapper"}>
-              <div className={"title-and-address-wrapper"}>
-                <div className={"title-and-categroy-wrapper"}>
-                  <div className={"detail-title"}>경복궁</div>
-                  <div className={"detail-category"}>관광 명소</div>
+    <DefaultLayout top={0} right={0} bottom={0} left={0} nav={false}>
+      <DetailPageContainer>
+        <CommonHeader headerTitle={"상세보기"} />
+        <DetailContentsContainer>
+          <DetailImage>
+            <Image src={GYEONGBOKGUNG} layout="fill" alt={"detail-image"} />
+          </DetailImage>
+          <DetailInfo>
+            <DetailWrapper>
+              <div className={"title-wrapper"}>
+                <div className={"title-and-address-wrapper"}>
+                  <div className={"title-and-categroy-wrapper"}>
+                    <div className={"detail-title"}>경복궁</div>
+                    <div className={"detail-category"}>관광 명소</div>
+                  </div>
+
+                  <div className={"detail-address"}>
+                    서울특별시 종로구 사직로 161
+                  </div>
                 </div>
 
-                <div className={"detail-address"}>
-                  서울특별시 종로구 사직로 161
+                <div className={"like-button"}>
+                  <div
+                    className={"like-star"}
+                    onClick={() => {
+                      likeClickHandler();
+                    }}
+                  >
+                    <StartIcon
+                      width={24}
+                      height={24}
+                      color={isLiked ? COLORS.mainColor : COLORS.greyColor}
+                    />
+                  </div>
+                  <div className={"like-count"}>1,200</div>
                 </div>
               </div>
+            </DetailWrapper>
+            <DetailDesc>
+              경복궁은 대한민국 서울특별시 종로구 사직로에 있는 조선 시대의
+              궁궐이다.
+            </DetailDesc>
+          </DetailInfo>
 
-              <div className={"like-button"}>
-                <div
-                  className={"like-star"}
-                  onClick={() => {
-                    likeClickHandler();
-                  }}
-                >
-                  <StartIcon
-                    width={24}
-                    height={24}
-                    color={isLiked ? COLORS.mainColor : COLORS.greyColor}
-                  />
-                </div>
-                <div className={"like-count"}>1,200</div>
-              </div>
-            </div>
-          </DetailWrapper>
-          <DetailDesc>
-            경복궁은 대한민국 서울특별시 종로구 사직로에 있는 조선 시대의
-            궁궐이다.
-          </DetailDesc>
-        </DetailInfo>
+          <DetailMap>
+            <EachTtile>지도에서 이 여행지 확인하기</EachTtile>
+            <MapContainer>{/* TODO : 이곳에 지도 삽입하기 */}</MapContainer>
+          </DetailMap>
 
-        <DetailMap>
-          <EachTtile>지도에서 이 여행지 확인하기</EachTtile>
-          <MapContainer>{/* TODO : 이곳에 지도 삽입하기 */}</MapContainer>
-        </DetailMap>
+          <ReviewsList>
+            <EachTtile>
+              이 여행지 리뷰 (4.5 / 5.0){" "}
+              {/*TODO : API 에서 받아온 리뷰값 평균 */}
+            </EachTtile>
 
-        <ReviewsList>
-          <EachTtile>
-            이 여행지 리뷰 (4.5 / 5.0) {/*TODO : API 에서 받아온 리뷰값 평균 */}
-          </EachTtile>
+            {DUMMY_REVIEW_DATA.map((review, index) => (
+              <DestinationReviewCard key={index} reviewData={review} />
+            ))}
 
-          {DUMMY_REVIEW_DATA.map((review, index) => (
-            <DestinationReviewCard key={index} reviewData={review} />
-          ))}
-
-          {visibleReviews < DUMMY_REVIEW_DATA.length && (
-            <LoadMoreButton onClick={loadMoreReviews}>
-              리뷰 더보기
-            </LoadMoreButton>
-          )}
-        </ReviewsList>
-      </DetailContentsContainer>
-    </DetailPageContainer>
+            {visibleReviews < DUMMY_REVIEW_DATA.length && (
+              <LoadMoreButton onClick={loadMoreReviews}>
+                리뷰 더보기
+              </LoadMoreButton>
+            )}
+          </ReviewsList>
+        </DetailContentsContainer>
+      </DetailPageContainer>
+    </DefaultLayout>
   );
 };
 
@@ -158,7 +162,7 @@ const DetailContentsContainer = styled.div`
 const DetailImage = styled.div`
   position: relative;
   width: 100%;
-  height: 250px;
+  height: 350px;
   background-color: ${COLORS.greyColor};
 `;
 
