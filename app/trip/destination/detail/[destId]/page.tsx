@@ -53,6 +53,11 @@ const DetailPage: React.FC = () => {
   const destId = params.get("destId");
 
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [visibleReviews, setVisibleReviews] = useState<number>(3);
+
+  const loadMoreReviews = () => {
+    setVisibleReviews((prev) => prev + 3);
+  };
 
   const likeClickHandler = () => {
     setIsLiked(!isLiked);
@@ -112,9 +117,16 @@ const DetailPage: React.FC = () => {
           <EachTtile>
             이 여행지 리뷰 (4.5 / 5.0) {/*TODO : API 에서 받아온 리뷰값 평균 */}
           </EachTtile>
-          {DUMMY_REVIEW_DATA.map((review, index) => (
+
+          {DUMMY_REVIEW_DATA.slice(0, visibleReviews).map((review, index) => (
             <DestinationReviewCard key={index} reviewData={review} />
           ))}
+
+          {visibleReviews < DUMMY_REVIEW_DATA.length && (
+            <LoadMoreButton onClick={loadMoreReviews}>
+              리뷰 더보기
+            </LoadMoreButton>
+          )}
         </ReviewsList>
       </DetailContentsContainer>
     </DetailPageContainer>
@@ -269,6 +281,18 @@ const ReviewsList = styled.div`
     line-height: 18px;
     font-weight: 900;
   }
+`;
+
+const LoadMoreButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 900;
+  color: ${COLORS.mainColor};
 `;
 
 export default DetailPage;
