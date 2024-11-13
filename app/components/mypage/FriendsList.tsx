@@ -26,7 +26,7 @@ const FriendsList: React.FC<FriendsListProps> = ({ friendsList }) => {
     <ListContainer>
       {/*3개 초과시 더보기 활성화 필요. */}
 
-      {friendsList.slice(0, visibleCount).map((friend: Friends) => (
+      {friendsList.map((friend: Friends) => (
         <FriendCard
           key={friend.userId}
           profileImg={friend.profileImg}

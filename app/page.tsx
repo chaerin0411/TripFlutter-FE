@@ -7,18 +7,57 @@ import PopularLocationCard from "./components/main/PopularLocationCard";
 import StyledButton from "./components/commons/StyledButton";
 import DUMMY_UDO from "/public/images/dummy_udo.png";
 import { useRouter } from "next/navigation";
+import { StaticImageData } from "next/image";
+
+import SEOUL from "@/public/images/seoul.jpeg";
+import GYEONGI from "@/public/images/gyeongi.jpg";
+import GANGWON from "@/public/images/gangwon.jpg";
+import CHUNGBUK from "@/public/images/chungbuk.jpg";
+import CHUNGNAM from "@/public/images/chungnam.jpg";
+import JEONBUK from "@/public/images/jeonbuk.jpg";
+import JEONNAM from "@/public/images/jeonnam.jpg";
+import JEJU from "@/public/images/jeju.jpg";
+
+interface LocationIconItem {
+  locationThumbnail: StaticImageData | string;
+  locationName: string;
+}
 
 const Home: React.FC = () => {
   const router = useRouter();
-  const DUMMY_LOCATION: string[] = [
-    "서울",
-    "경기",
-    "강원",
-    "충북",
-    "충남",
-    "전북",
-    "전남",
-    "제주",
+  const locationList: LocationIconItem[] = [
+    {
+      locationThumbnail: SEOUL,
+      locationName: "서울특별시",
+    },
+    {
+      locationThumbnail: GYEONGI,
+      locationName: "경기도",
+    },
+    {
+      locationThumbnail: GANGWON,
+      locationName: "강원도",
+    },
+    {
+      locationThumbnail: CHUNGBUK,
+      locationName: "충청북도",
+    },
+    {
+      locationThumbnail: CHUNGNAM,
+      locationName: "충청남도",
+    },
+    {
+      locationThumbnail: JEONBUK,
+      locationName: "전라북도",
+    },
+    {
+      locationThumbnail: JEONNAM,
+      locationName: "전라남도",
+    },
+    {
+      locationThumbnail: JEJU,
+      locationName: "제주특별자치도",
+    },
   ];
 
   const DUMMY_POPULAR_LOCATION = [
@@ -49,10 +88,11 @@ const Home: React.FC = () => {
       </HomeContainer>
 
       <LocationContainer>
-        {DUMMY_LOCATION.map((location: string, index: number) => (
+        {locationList.map((location: LocationIconItem, index: number) => (
           <LocationThumbNailCard
-            key={location + index}
-            locationName={location}
+            key={index}
+            img={location.locationThumbnail}
+            locationName={location.locationName}
           />
         ))}
       </LocationContainer>
