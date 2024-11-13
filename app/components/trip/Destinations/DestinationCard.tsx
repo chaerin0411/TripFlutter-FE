@@ -3,8 +3,7 @@ import styled from "styled-components";
 import { COLORS } from "@/public/styles/colors";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import DUMMY_UDO from "/public/images/dummy_udo.png";
-import { ListData } from "@/app/trip/destination/list/page";
+import { ListData } from "@/public/types";
 
 interface DestinationCardProps {
   destination: ListData;
@@ -12,7 +11,7 @@ interface DestinationCardProps {
 
 const DestinationCard: React.FC<DestinationCardProps> = ({ destination }) => {
   const router = useRouter();
-  const { id, destinationName, tags } = destination;
+  const { id, destinationName, tags, image } = destination;
 
   const onClickDestination = () => {
     router.push(`/trip/destination/detail/${id}`);
@@ -26,13 +25,12 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination }) => {
     >
       <DestinationThumbnail>
         <Image
-          src={DUMMY_UDO}
+          src={image}
           alt={"dummy"}
           layout="fill"
           placeholder="blur"
           objectFit="cover"
         />
-        <Image src={DUMMY_UDO} alt="dummy" layout="fill" />
       </DestinationThumbnail>
       <DestinationInfo>
         <div className="destination-title">{destinationName}</div>
