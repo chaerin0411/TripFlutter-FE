@@ -50,7 +50,7 @@ const DUMMY_REVIEW_DATA: ReviewDataProps[] = [
 
 const DetailPage: React.FC = () => {
   const params = useSearchParams();
-  const destId = params.get("destId");
+  const destId = params?.get("destId");
 
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [visibleReviews, setVisibleReviews] = useState<number>(3);
@@ -118,7 +118,7 @@ const DetailPage: React.FC = () => {
             이 여행지 리뷰 (4.5 / 5.0) {/*TODO : API 에서 받아온 리뷰값 평균 */}
           </EachTtile>
 
-          {DUMMY_REVIEW_DATA.slice(0, visibleReviews).map((review, index) => (
+          {DUMMY_REVIEW_DATA.map((review, index) => (
             <DestinationReviewCard key={index} reviewData={review} />
           ))}
 

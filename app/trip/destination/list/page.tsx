@@ -9,17 +9,44 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import LoadingModal from "@/app/components/commons/LoadingModal";
 import DestinationCard from "@/app/components/trip/Destinations/DestinationCard";
-import { ListData } from "@/public/types";
-import { DUMMY_DESTINATIONS_DATA_LIST } from "@/public/dummyData";
+
+export interface ListData {
+  id: number;
+  destinationName: string;
+  tags: string[];
+}
+
+const DUMMY_DATA: ListData[] = [
+  {
+    id: 1,
+    destinationName: "경복궁",
+    tags: ["역사", "궁궐", "서울"],
+  },
+  {
+    id: 2,
+    destinationName: "남산",
+    tags: ["산", "전망", "트래킹"],
+  },
+  {
+    id: 3,
+    destinationName: "청계천",
+    tags: ["도심", "산책", "물길"],
+  },
+  {
+    id: 4,
+    destinationName: "북촌 한옥마을",
+    tags: ["역사", "한옥", "서울"],
+  },
+];
 
 const DestinationListPage: React.FC = () => {
   const searchParams = useSearchParams();
-  const region = searchParams.get("region");
-  const [listData, setListData] = useState<ListData[]>([]);
+  const region = searchParams?.get("region");
+  const [listData, setListData] = useState<ListData[]>(DUMMY_DATA);
 
   useEffect(() => {
-    region && setListData(DUMMY_DATA_LIST[region]);
-  }, [region]);
+    setListData(DUMMY_DATA);
+  }, []);
 
   return listData && region ? (
     <DefaultLayout top={0} right={0} bottom={0} left={0} nav={false}>
