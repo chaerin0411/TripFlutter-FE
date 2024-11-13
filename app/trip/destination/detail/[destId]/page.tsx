@@ -7,6 +7,8 @@ import { StartIcon } from "@/app/components/commons/Icons";
 import { useParams, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { ReviewDataProps } from "@/app/components/trip/Destinations/DestinationReviewCard";
+import DestinationReviewCard from "@/app/components/trip/Destinations/DestinationReviewCard";
 
 interface DetailData {
   title: string;
@@ -18,6 +20,33 @@ interface DetailData {
 // TODO
 // like count => api로 받아와서 처리
 // like button => 클릭시 api로 전송
+
+const DUMMY_REVIEW_DATA: ReviewDataProps[] = [
+  {
+    userName: "김여행",
+    date: "2024.11.12",
+    contents: "오늘같이 날씨가 좋은 가을날 데이트하기 정말 좋은 장소였습니다.",
+    review: 3,
+  },
+  {
+    userName: "김동빈",
+    date: "2024.11.11",
+    contents: "평소 역사에 관심이 많아 방문했습니다. 유익한 시간이었어요.",
+    review: 4,
+  },
+  {
+    userName: "전채린",
+    date: "2024.11.10",
+    contents: "교통편이 괜찮았어요. 다음에 또 방문하고 싶어요.",
+    review: 5,
+  },
+  {
+    userName: "정승민",
+    date: "2024.11.10",
+    contents: "한복을 입고 방문하면 입장료가 무료더라고요. 추천합니다.",
+    review: 5,
+  },
+];
 
 const DetailPage: React.FC = () => {
   const params = useSearchParams();
@@ -83,70 +112,14 @@ const DetailPage: React.FC = () => {
           <EachTtile>
             이 여행지 리뷰 (4.5 / 5.0) {/*TODO : API 에서 받아온 리뷰값 평균 */}
           </EachTtile>
-          <DestinationReviewCard />
+          {DUMMY_REVIEW_DATA.map((review, index) => (
+            <DestinationReviewCard key={index} reviewData={review} />
+          ))}
         </ReviewsList>
       </DetailContentsContainer>
     </DetailPageContainer>
   );
 };
-
-const DestinationReviewCard: React.FC = () => {
-  return (
-    <ReviewCardContainer>
-      <ReviewContentsContainer>
-        <div className={"user-name"}>홍길동</div>
-        <div className={"contents"}>
-          여기를 벗어나면 안되는데 어쨌든 주저리 주저리 써봅니다.아아아아아아
-        </div>
-        <div className={"date"}>2024.11.12</div>
-      </ReviewContentsContainer>
-    </ReviewCardContainer>
-  );
-};
-
-const ReviewCardContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 8px 16px;
-  width: calc(100% - 32px);
-
-  border: 1px solid ${COLORS.greyColor};
-  border-radius: 8px;
-`;
-
-const ReviewContentsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-
-  .user-name {
-    font-size: 16px;
-    line-height: 16px;
-    font-weight: 900;
-  }
-
-  .contents {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    font-size: 16px;
-    line-height: 16px;
-    font-weight: 500;
-  }
-
-  .date {
-    position: relative;
-    right: 0;
-    bottom: 0;
-    font-size: 14px;
-    line-height: 14px;
-    font-weight: 500;
-  }
-`;
 
 const DetailPageContainer = styled.div`
   position: relative;
@@ -156,10 +129,10 @@ const DetailPageContainer = styled.div`
   align-items: center;
   /* gap: 20px; */
 
+  margin-bottom: 100px;
   min-width: 320px;
   max-width: 600px;
   width: 100%;
-  height: 100dvh;
 `;
 
 const DetailContentsContainer = styled.div`
