@@ -64,8 +64,8 @@ const CardContainer = styled.div`
 const DestinationThumbnail = styled.div`
   position: relative;
   width: 100%;
-  min-height: 300px;
-  max-height: 450px;
+  min-height: 250px;
+  max-height: 350px;
   border-radius: 8px;
   overflow: hidden;
 
